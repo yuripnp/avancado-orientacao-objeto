@@ -1,3 +1,4 @@
+from modelos.Cardapio.itemCardapio import ItemCardapio
 from modelos.avaliacao import Avaliacao
 
 class Restaurante:
@@ -15,12 +16,28 @@ class Restaurante:
         self._categoria = categoria.upper()
         self._ativo = False
         self._avaliacoes = []
+        self._cardapio = []
         Restaurante.restaurantes.append(self)
 
     def __str__(self):
         """"
         Retorna uma representação em string do restaurante."""
         return f"{self.nome} ({self.categoria}) "
+    
+    def adicionar_item_cardapio(self, item):
+        if isinstance(item, ItemCardapio):
+            self._cardapio.append(item)
+
+    @property # é quando eu quero que uma função se comporte como um atributo
+    def mostrar_cardapio(self):
+        print(f"Cardapio do restaurante {self._nome}\n")
+        for i, item in enumerate(self._cardapio, start=1):
+            if hasattr(item, '_tamanho'):
+                messagem = f'{i} - {item._nome} : R${item._preco} | {item._tamanho}'
+                print(messagem)
+            elif hasattr(item, '_descricao'):
+                messagem = f'{i} - {item._nome} : R${item._preco} | {item._descricao}'
+                print(messagem)
     
     @property # a forma como o atributo é apresentado
     def ativo(self):
